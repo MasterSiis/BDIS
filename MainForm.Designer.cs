@@ -36,6 +36,9 @@
             this.cautareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stergerePacientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultatiiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.adaugaConsultatiiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modificareConsultatieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stergereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rapoarteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iesireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelCautareNume = new System.Windows.Forms.Label();
@@ -45,6 +48,7 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -55,8 +59,9 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(31, 98);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(448, 325);
+            this.dataGridView1.Size = new System.Drawing.Size(441, 325);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // menuStrip1
             // 
@@ -67,7 +72,7 @@
             this.iesireToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1005, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1117, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -107,14 +112,39 @@
             // 
             this.stergerePacientToolStripMenuItem.Name = "stergerePacientToolStripMenuItem";
             this.stergerePacientToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.stergerePacientToolStripMenuItem.Text = "Stergere pacient";
+            this.stergerePacientToolStripMenuItem.Text = "Stergere";
             this.stergerePacientToolStripMenuItem.Click += new System.EventHandler(this.stergerePacientToolStripMenuItem_Click);
             // 
             // consultatiiToolStripMenuItem
             // 
+            this.consultatiiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.adaugaConsultatiiToolStripMenuItem,
+            this.modificareConsultatieToolStripMenuItem,
+            this.stergereToolStripMenuItem});
             this.consultatiiToolStripMenuItem.Name = "consultatiiToolStripMenuItem";
             this.consultatiiToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.consultatiiToolStripMenuItem.Text = "Consultatii";
+            // 
+            // adaugaConsultatiiToolStripMenuItem
+            // 
+            this.adaugaConsultatiiToolStripMenuItem.Name = "adaugaConsultatiiToolStripMenuItem";
+            this.adaugaConsultatiiToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.adaugaConsultatiiToolStripMenuItem.Text = "Adauga consultatii";
+            this.adaugaConsultatiiToolStripMenuItem.Click += new System.EventHandler(this.adaugaConsultatiiToolStripMenuItem_Click);
+            // 
+            // modificareConsultatieToolStripMenuItem
+            // 
+            this.modificareConsultatieToolStripMenuItem.Name = "modificareConsultatieToolStripMenuItem";
+            this.modificareConsultatieToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.modificareConsultatieToolStripMenuItem.Text = "Modificare consultatie";
+            this.modificareConsultatieToolStripMenuItem.Click += new System.EventHandler(this.modificareConsultatieToolStripMenuItem_Click);
+            // 
+            // stergereToolStripMenuItem
+            // 
+            this.stergereToolStripMenuItem.Name = "stergereToolStripMenuItem";
+            this.stergereToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.stergereToolStripMenuItem.Text = "Stergere";
+            this.stergereToolStripMenuItem.Click += new System.EventHandler(this.stergereToolStripMenuItem_Click);
             // 
             // rapoarteToolStripMenuItem
             // 
@@ -175,10 +205,9 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Enabled = false;
             this.dataGridView2.Location = new System.Drawing.Point(532, 98);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(448, 325);
+            this.dataGridView2.Size = new System.Drawing.Size(547, 325);
             this.dataGridView2.TabIndex = 0;
             // 
             // label1
@@ -199,11 +228,23 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Consultatii";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(756, 39);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(146, 37);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Salveaza modificarile";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1005, 542);
+            this.ClientSize = new System.Drawing.Size(1117, 476);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonAnuleazaModificari);
@@ -245,6 +286,10 @@
         private System.Windows.Forms.ToolStripMenuItem iesireToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem adaugaConsultatiiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modificareConsultatieToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stergereToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }
 

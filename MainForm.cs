@@ -17,11 +17,14 @@ namespace BDIS
         OracleConnection connection;
         OracleDataAdapter dataAdapter;
         DataSet dataSet;
-        Boolean inEditMode = false;
+        Boolean inEditMode = false,
+            inSearchMode = false;
+        String CNP = String.Empty;
 
         public MainForm()
         {
             InitializeComponent();
+            dataGridView1.ReadOnly = true;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -54,6 +57,7 @@ namespace BDIS
                 dataSet = new DataSet();
                 dataAdapter.Fill(dataSet, "Pacienti");
                 dataGridView1.DataSource = dataSet.Tables["Pacienti"];
+                dataGridView1.Rows[0].Cells[0].Selected = false;
             }
             catch (Exception exception)
             {
@@ -61,7 +65,7 @@ namespace BDIS
             }
         }
 
-        private void updatePatientInformation()
+       private void updatePatientInformation()
         {
             try
             {
@@ -98,6 +102,7 @@ namespace BDIS
 
         private void modificareDatePacientToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            inSearchMode = true;
             displaySearchElements(true);
             inEditMode = true;
         }
@@ -105,6 +110,7 @@ namespace BDIS
        private void buttonSalvareModificari_Click(object sender, EventArgs e)
         {
             textBoxCautarePacienti.Clear();
+            inSearchMode = false;
             updatePatientInformation();
             getPatientsInformation();
             displaySearchElements(false);
@@ -128,9 +134,10 @@ namespace BDIS
 
         private void cautareToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            textBoxCautarePacienti.Clear();
             displaySearchElements(true);
             dataGridView1.ReadOnly = true;
-            searchPatientByCNP();
+            //searchPatientByCNP();
         }
 
         private void iesireToolStripMenuItem_Click(object sender, EventArgs e)
@@ -165,6 +172,114 @@ namespace BDIS
             else
             {
                 MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
+            }
+        }
+
+        public void getDiagnosticsForPatients(String CNP)
+        {
+            try
+            {
+                String filterQuery = "CNP like'" + CNP + "%'";
+                String sqlQuery = "SELECT * FROM Consultatii";
+                dataAdapter = new OracleDataAdapter(sqlQuery, connection);
+                dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "Consultatii");
+                dataGridView2.DataSource = dataSet.Tables["Consultatii"];            
+                dataSet.Tables["Consultatii"].DefaultView.RowFilter = filterQuery;
+                dataGridView1.Refresh();
+
+
+                dataGridView2.Rows[0].Cells[0].Selected = false;
+                dataGridView2.ReadOnly = true;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!inSearchMode)
+            { 
+                CNP = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
+                getDiagnosticsForPatients(CNP);
+            }
+
+        }
+
+        private void adaugaConsultatiiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CNP != String.Empty)
+            {
+                FormAdaugareConsultatie formAdaugare = new FormAdaugareConsultatie(connection, this, CNP);
+                formAdaugare.Show();
+            }
+            else
+            {
+                MessageBox.Show("Selectati pacientul pentru a putea adauga consultatie !");
+            }
+               
+        }
+
+        private void stergereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count == 1)
+            {
+                DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
+                MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes)
+                {
+
+                    String cnpSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[0].Value.ToString();
+                    String sqlDeleteQuery = "DELETE FROM Consultatii WHERE CNP= :p1";
+
+                    connection.Open();
+                    OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
+                    oracleCommand.BindByName = true;
+                    oracleCommand.Parameters.Add("p1", cnpSelectat);
+                    dataAdapter.DeleteCommand = oracleCommand;
+                    dataAdapter.DeleteCommand.ExecuteNonQuery();
+                    connection.Close();
+                    getDiagnosticsForPatients(CNP);
+
+                    MessageBox.Show("Stergerea s-a realizat cu succes");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Visible = false;
+            try
+            {
+                OracleCommandBuilder command = new OracleCommandBuilder(dataAdapter);
+                dataAdapter.Update(dataSet.Tables["Consultatii"]);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+            getDiagnosticsForPatients(CNP);
+        }
+
+        private void modificareConsultatieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(dataGridView2.Rows[0].Cells[0].Displayed)
+                { 
+                    button1.Visible = true;
+                    dataGridView2.ReadOnly = false;
+                }
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show("Selectati pacientul pentru care doriti sa modificati consultatiile !");
             }
         }
     }
