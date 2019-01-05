@@ -34,7 +34,6 @@ namespace BDIS
             OracleCommand cmd;
             if( textBox1.Text.ToString() != String.Empty &&
                 textBox2.Text.ToString() != String.Empty &&
-                textBox3.Text.ToString() != String.Empty &&
                 textBox4.Text.ToString() != String.Empty 
                 )
             {
@@ -48,7 +47,7 @@ namespace BDIS
                     p4 = new OracleParameter();
                     p1.Value = textBox1.Text;
                     p2.Value = textBox2.Text;
-                    p3.Value = textBox3.Text;
+                    p3.Value = dateTimePicker1.Value.ToString("dd-MMM-yy").ToString();
                     p4.Value = textBox4.Text;
                     String sqlInsertCommand = "Insert into Pacienti Pacienti(CNP,adresa,data_nasterii,varsta) values (:1,:2,:3,:4)";
                     cmd = new OracleCommand(sqlInsertCommand, connection);
@@ -62,7 +61,7 @@ namespace BDIS
                                "Adaugare pacienti", MessageBoxButtons.YesNo);
                     if (dialog == DialogResult.Yes)
                     {
-                        textBox1.Clear(); textBox2.Clear(); textBox3.Clear(); textBox4.Clear();
+                        textBox1.Clear(); textBox2.Clear(); dateTimePicker1.ResetText(); textBox4.Clear();
                         main.getPatientsInformation();
                     }
                     else
@@ -112,7 +111,7 @@ namespace BDIS
 
         Boolean hasOnlyLetters(String input)
         {
-            if (Regex.IsMatch(input, @"^[a-zA-Z]+$") && input != "")
+            if (Regex.IsMatch(input, @"^[a-zA-Z\s\.\,]*$") && input != "")
                 return true;
             else
                 return false;
@@ -145,6 +144,12 @@ namespace BDIS
                 MessageBox.Show("Varsta Invalida");
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+            
     }
 
     
