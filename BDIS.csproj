@@ -49,11 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormAdaugare.cs">
+    <Compile Include="FormAdaugarePacienti.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAdaugare.Designer.cs">
-      <DependentUpon>FormAdaugare.cs</DependentUpon>
+    <Compile Include="FormAdaugarePacienti.Designer.cs">
+      <DependentUpon>FormAdaugarePacienti.cs</DependentUpon>
     </Compile>
     <Compile Include="FormAdaugareConsultatie.cs">
       <SubType>Form</SubType>
@@ -69,8 +69,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormAdaugare.resx">
-      <DependentUpon>FormAdaugare.cs</DependentUpon>
+    <EmbeddedResource Include="FormAdaugarePacienti.resx">
+      <DependentUpon>FormAdaugarePacienti.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAdaugareConsultatie.resx">
       <DependentUpon>FormAdaugareConsultatie.cs</DependentUpon>

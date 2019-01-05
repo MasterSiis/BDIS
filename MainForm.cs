@@ -25,6 +25,7 @@ namespace BDIS
         {
             InitializeComponent();
             dataGridView1.ReadOnly = true;
+            label3.ForeColor = Color.Red;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -96,7 +97,7 @@ namespace BDIS
 
         private void adaugatePacientToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormAdaugare formAdaugare = new FormAdaugare(connection, this);
+            FormAdaugarePacienti formAdaugare = new FormAdaugarePacienti(connection, this);
             formAdaugare.Show();
         }
 
@@ -106,6 +107,7 @@ namespace BDIS
             inSearchMode = true;
             displaySearchElements(true);
             inEditMode = true;
+            buttonAnuleazaModificari.Enabled = true;
         }
 
        private void buttonSalvareModificari_Click(object sender, EventArgs e)
@@ -115,6 +117,7 @@ namespace BDIS
             displaySearchElements(false);
             textBoxCautarePacienti.Text = String.Empty;
             inSearchMode = false;
+            getDiagnosticsForPatients(CNP);
 
         }
 
@@ -123,7 +126,6 @@ namespace BDIS
             if (inEditMode)
             {
                 buttonSalvareModificari.Enabled = true;
-                buttonAnuleazaModificari.Enabled = true;
             }
             searchPatientByCNP(textBoxCautarePacienti.Text.ToString());
         }
@@ -208,11 +210,26 @@ namespace BDIS
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!inSearchMode)
-            { 
+            {
+                try
+                { 
                 CNP = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
                 getDiagnosticsForPatients(CNP);
+                }
+                catch(Exception ex)
+                {
+                    //MessageBox.Show(ex.ToString());
+                }
+            }
+            else
+            {
+                textBoxCautarePacienti.Text = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
             }
 
+            if (dataGridView2.Rows.Count == 1)
+                label3.Visible = true;
+            else
+                label3.Visible = false;
         }
 
         private void adaugaConsultatiiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -226,40 +243,51 @@ namespace BDIS
             {
                 MessageBox.Show("Selectati pacientul pentru a putea adauga consultatie !");
             }
-               
-        }
 
+        }
+        
         private void stergereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView2.SelectedRows.Count == 1)
-            {
-                DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
-                MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
+            try
+            { 
+                if (dataGridView2.Rows[0].Cells[0].Displayed)
                 {
+                    if (dataGridView2.SelectedRows.Count == 1)
+                    {
+                        DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
+                        MessageBoxButtons.YesNo);
+                        if (dialog == DialogResult.Yes)
+                        {
 
-                    String cnpSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[0].Value.ToString();
-                    String diagnosticSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[3].Value.ToString();
-                    String sqlDeleteQuery = "DELETE FROM Consultatii WHERE CNP= :p1 AND diagnostic= :p2";
+                            String cnpSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[0].Value.ToString();
+                            String diagnosticSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[3].Value.ToString();
+                            String sqlDeleteQuery = "DELETE FROM Consultatii WHERE CNP= :p1 AND diagnostic= :p2";
 
-                    connection.Open();
-                    OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
-                    oracleCommand.BindByName = true;
-                    oracleCommand.Parameters.Add("p1", cnpSelectat);
-                    oracleCommand.Parameters.Add("p2", diagnosticSelectat);
-                    dataAdapterConsultatii.DeleteCommand = oracleCommand;
-                    dataAdapterConsultatii.DeleteCommand.ExecuteNonQuery();
-                    connection.Close();
-                    getDiagnosticsForPatients(CNP);
+                            connection.Open();
+                            OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
+                            oracleCommand.BindByName = true;
+                            oracleCommand.Parameters.Add("p1", cnpSelectat);
+                            oracleCommand.Parameters.Add("p2", diagnosticSelectat);
+                            dataAdapterConsultatii.DeleteCommand = oracleCommand;
+                            dataAdapterConsultatii.DeleteCommand.ExecuteNonQuery();
+                            connection.Close();
+                            getDiagnosticsForPatients(CNP);
 
-                    MessageBox.Show("Stergerea s-a realizat cu succes");
+                            MessageBox.Show("Stergerea s-a realizat cu succes");
 
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
+                    }
                 }
             }
-            else
+            catch (Exception exception)
             {
-                MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
+                MessageBox.Show("Selectati pacientul pentru care doriti sa stergeti consultatiile !");
             }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

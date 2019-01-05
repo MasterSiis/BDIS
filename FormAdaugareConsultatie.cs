@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess;
 using Oracle.ManagedDataAccess.Client;
+using System.Text.RegularExpressions;
 
 namespace BDIS
 {
@@ -64,5 +65,73 @@ namespace BDIS
             this.Close();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        Boolean hasOnlyLetters(String input)
+        {
+            if (Regex.IsMatch(input, @"^[a-zA-Z\s\.\,]*$") && input != "")
+                return true;
+            else
+                return false;
+
+        }
+
+        Boolean fieldNotEmpty(String input)
+        {
+            if (input != String.Empty)
+                return true;
+            else
+                return false;
+        }
+
+        private void textBox3_Leave(object sender, EventArgs e) //diagnostic label4
+        {
+            bool isAllOk = true;
+            if (fieldNotEmpty(textBox3.Text.ToString()) &&
+                textBox3.Text.ToString() != String.Empty)
+                if (!hasOnlyLetters(textBox3.Text.ToString()))
+                {
+                    MessageBox.Show("Diagnostic Invalid .. \nTrebuie sa contina doar litere !");
+                    textBox3.ResetText();
+                    this.ActiveControl = textBox3;
+                    isAllOk = false;
+                    label4.ForeColor = Color.Red;
+                }
+            if (textBox3.Text.ToString().Length > 50)
+            {
+                MessageBox.Show("Diagnosticul este prea lung!");
+                textBox3.ResetText();
+                this.ActiveControl = textBox3;
+                label4.ForeColor = Color.Red;
+                isAllOk = false;
+            }
+            if (isAllOk && fieldNotEmpty(textBox3.Text.ToString()))
+            {
+                label4.ForeColor = Color.Black;
+            }
+        }
+
+        private void textBox4_Leave(object sender, EventArgs e) //medicamentatie label3
+        {
+            bool isAllOk = true;
+            if (fieldNotEmpty(textBox4.Text.ToString()))
+            { 
+                if (textBox4.Text.ToString().Length > 50)
+                {
+                    MessageBox.Show("Diagnosticul este prea lung!");
+                    textBox4.ResetText();
+                    this.ActiveControl = textBox3;
+                    label3.ForeColor = Color.Red;
+                    isAllOk = false;
+                }
+            }
+            if (isAllOk && fieldNotEmpty(textBox4.Text.ToString()))
+            {
+                label3.ForeColor = Color.Black;
+            }
+        }
     }
 }

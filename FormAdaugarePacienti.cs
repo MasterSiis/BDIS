@@ -13,13 +13,13 @@ using System.Text.RegularExpressions;
 
 namespace BDIS
 {
-    public partial class FormAdaugare : Form
+    public partial class FormAdaugarePacienti : Form
     {
 
         OracleConnection connection;
         MainForm main;
 
-        public FormAdaugare(OracleConnection connection, MainForm main)
+        public FormAdaugarePacienti(OracleConnection connection, MainForm main)
         {
             this.connection = connection;
             this.main = main;
@@ -82,24 +82,7 @@ namespace BDIS
             }
         }
 
-        private void textBox1_Leave(object sender, EventArgs e)
-        {
-            Boolean error = false;
-            if (fieldNotEmpty(textBox1.Text.ToString()))
-            { 
-                if (!hasOnlyNumbers(textBox1.Text.ToString()))
-                {
-                    MessageBox.Show("CNP Invalid");
-                    error = true;
-                }
-                if (textBox1.Text.ToString().Length != 13)
-                {
-                    if(!error)
-                        MessageBox.Show("CNP Invalid");
-                }
-            }
-        }
-
+       
         Boolean hasOnlyNumbers(String input)
         {
             if (Regex.IsMatch(input, @"^[0-9]+$") && input != String.Empty)
@@ -126,22 +109,90 @@ namespace BDIS
                 return false;
         }
 
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            Boolean error = false;
+            bool isAllOk = true;
+            if (fieldNotEmpty(textBox1.Text.ToString()))
+            {
+                if (!hasOnlyNumbers(textBox1.Text.ToString()))
+                {
+                    MessageBox.Show("CNP Invalid ..");
+                    textBox1.ResetText();
+                    this.ActiveControl = textBox1;
+                    error = true;
+                    isAllOk = false;
+                    label1.ForeColor = Color.Red;
+                }
+                if (textBox1.Text.ToString().Length != 13)
+                {
+                    if (!error)
+                    {
+                        MessageBox.Show("CNP Invalid ..");
+                        textBox1.ResetText();
+                        this.ActiveControl = textBox1;
+                        label1.ForeColor = Color.Red;
+                        isAllOk = false;
+                    }
+                }
+            }
+            if (isAllOk && fieldNotEmpty(textBox1.Text.ToString()))
+            {
+                label1.ForeColor = Color.Black;
+            }
+        }
+
         private void textBox2_Leave(object sender, EventArgs e)
         {
+            bool isAllOk = true;
             if(fieldNotEmpty(textBox2.Text.ToString()) &&
                 textBox2.Text.ToString()!=String.Empty)
                 if (!hasOnlyLetters(textBox2.Text.ToString()))
                 {
-                    MessageBox.Show("Adresa Invalida");
+                    MessageBox.Show("Adresa Invalida .. \nTrebuie sa contina doar litere !");
+                    textBox2.ResetText();
+                    this.ActiveControl = textBox2;
+                    isAllOk = false;
+                    label2.ForeColor = Color.Red;
                 }
+            if(textBox2.Text.ToString().Length > 50)
+            {
+                MessageBox.Show("Adresa este prea lunga!");
+                textBox2.ResetText();
+                this.ActiveControl = textBox2;
+                label2.ForeColor = Color.Red;
+                isAllOk = false;
+            }
+            if (isAllOk && fieldNotEmpty(textBox2.Text.ToString()))
+            {
+                label2.ForeColor = Color.Black;
+            }
         }
 
         private void textBox4_Leave(object sender, EventArgs e)
         {
+            bool isAllOk = true;
             if (fieldNotEmpty(textBox4.Text.ToString()) &&
                 !hasOnlyNumbers(textBox4.Text.ToString()))
             {
-                MessageBox.Show("Varsta Invalida");
+                MessageBox.Show("Varsta Invalida ..\nTrebuie sa contina doar cifre !");
+                textBox4.ResetText();
+                this.ActiveControl = textBox4;
+                label4.ForeColor = Color.Red;
+                isAllOk = false;
+            }
+            if (textBox4.Text.ToString().Length > 3)
+            {
+                MessageBox.Show("Varsta Invalida ..");
+                textBox4.ResetText();
+                this.ActiveControl = textBox4;
+                label4.ForeColor = Color.Red;
+                isAllOk = false;
+
+            }
+            if (isAllOk && fieldNotEmpty(textBox4.Text.ToString()) )
+            {
+                label4.ForeColor = Color.Black;
             }
         }
 
@@ -149,8 +200,6 @@ namespace BDIS
         {
             this.Close();
         }
-            
     }
-
-    
+        
 }

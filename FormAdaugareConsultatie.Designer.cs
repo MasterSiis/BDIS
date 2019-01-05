@@ -37,6 +37,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox3
@@ -45,6 +46,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 2;
+            this.textBox3.Leave += new System.EventHandler(this.textBox3_Leave);
             // 
             // textBox4
             // 
@@ -52,6 +54,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 20);
             this.textBox4.TabIndex = 3;
+            this.textBox4.Leave += new System.EventHandler(this.textBox4_Leave);
             // 
             // labelCNP
             // 
@@ -100,11 +103,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(90, 238);
+            this.button1.Location = new System.Drawing.Point(33, 261);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(148, 56);
+            this.button1.Size = new System.Drawing.Size(116, 60);
             this.button1.TabIndex = 7;
-            this.button1.Text = "Adauga";
+            this.button1.Text = "Adaugare";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -115,11 +118,22 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 9;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(173, 261);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(117, 60);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Anulare";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FormAdaugareConsultatie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(325, 380);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
@@ -130,7 +144,7 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Name = "FormAdaugareConsultatie";
-            this.Text = "FormAdaugareConsultatie";
+            this.Text = "Adaugare Consultatie";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,5 +160,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BDIS
 {
-    partial class FormAdaugare
+    partial class FormAdaugarePacienti
     {
         /// <summary>
         /// Required designer variable.
@@ -127,7 +127,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // FormAdaugare
+            // FormAdaugarePacienti
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -142,7 +142,7 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Name = "FormAdaugare";
+            this.Name = "FormAdaugarePacienti";
             this.Text = "Adaugare Pacienti";
             this.ResumeLayout(false);
             this.PerformLayout();
