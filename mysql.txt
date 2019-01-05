@@ -1,0 +1,34 @@
+create table Pacienti(
+CNP char(13) primary key,
+adresa varchar(50) not null,
+data_nasterii date not null,
+varsta int not null
+);
+
+create table Consultatii(
+CNP char(13),
+nr_consultatie int primary key,
+data_consultatiei date not null,
+diagnostic varchar(50) not null,
+medicamentatie varchar(50) not null,
+FOREIGN KEY(CNP) REFERENCES Pacienti(CNP) ON DELETE CASCADE
+);
+
+insert into Pacienti(CNP,adresa,data_nasterii,varsta) VALUES ('1950830350014','Str. Holdelor', '30-AUG-95', 23);
+
+create sequence next_id start with 1;
+create or replace trigger urm_nr
+    before insert on Consultatii
+    for each row
+    begin
+   select next_id.NEXTVAL
+   INTO :new.nr_consultatie
+   from dual;
+   end;
+   /
+   
+DATA SOURCE=localhost:1521/XE;PASSWORD=student;PERSIST SECURITY INFO=True;USER ID=STUDENT
+
+system
+port 1521
+Run the SQL scripts located in E:\app\student\product\12.1.0\client_1\ASP.NET\SQL directory after a new installation or an upgrade of Oracle Providers for ASP.NET.

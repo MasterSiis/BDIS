@@ -66,7 +66,35 @@ namespace BDIS
             }
         }
 
-       private void updatePatientInformation()
+        public void hideLabel()
+        {
+            label3.Visible = false;
+        }
+
+        public void getDiagnosticsForPatients(String CNP)
+        {
+            try
+            {
+                String filterQuery = "CNP like'" + CNP + "%'";
+                String sqlQuery = "SELECT * FROM Consultatii";
+                dataAdapterConsultatii = new OracleDataAdapter(sqlQuery, connection);
+                dataSetConsultatii = new DataSet();
+                dataAdapterConsultatii.Fill(dataSetConsultatii, "Consultatii");
+                dataGridView2.DataSource = dataSetConsultatii.Tables["Consultatii"];
+                dataSetConsultatii.Tables["Consultatii"].DefaultView.RowFilter = filterQuery;
+                dataGridView1.Refresh();
+
+
+                dataGridView2.Rows[0].Cells[0].Selected = false;
+                dataGridView2.ReadOnly = true;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
+
+        private void updatePatientInformation()
         {
             try
             {
@@ -84,6 +112,36 @@ namespace BDIS
             String filterQuery = "CNP like'" + filter + "%'";
             dataSet.Tables["Pacienti"].DefaultView.RowFilter = filterQuery;
             dataGridView1.Refresh();
+        }
+
+        private void stergerePacientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 1)
+            {
+                DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
+                MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes)
+                {
+
+                    String cnpSelectat = dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[0].Value.ToString();
+                    String sqlDeleteQuery = "DELETE FROM Pacienti WHERE CNP= :p1";
+
+                    connection.Open();
+                    OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
+                    oracleCommand.BindByName = true;
+                    oracleCommand.Parameters.Add("p1", cnpSelectat);
+                    dataAdapter.DeleteCommand = oracleCommand;
+                    dataAdapter.DeleteCommand.ExecuteNonQuery();
+                    connection.Close();
+                    getPatientsInformation();
+                    getDiagnosticsForPatients(CNP);
+                    MessageBox.Show("Stergerea s-a realizat cu succes");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
+            }
         }
 
         private void displaySearchElements(Boolean visible)
@@ -152,60 +210,7 @@ namespace BDIS
         private void iesireToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void stergerePacientToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count == 1)
-            {
-                DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
-                MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
-                {
-                
-                        String cnpSelectat = dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[0].Value.ToString();
-                        String sqlDeleteQuery = "DELETE FROM Pacienti WHERE CNP= :p1";
-
-                        connection.Open();
-                        OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
-                        oracleCommand.BindByName = true;
-                        oracleCommand.Parameters.Add("p1", cnpSelectat);
-                        dataAdapter.DeleteCommand = oracleCommand;
-                        dataAdapter.DeleteCommand.ExecuteNonQuery();
-                        connection.Close();
-                        getPatientsInformation();
-                        getDiagnosticsForPatients(CNP);
-                        MessageBox.Show("Stergerea s-a realizat cu succes");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
-            }
-        }
-
-        public void getDiagnosticsForPatients(String CNP)
-        {
-            try
-            {
-                String filterQuery = "CNP like'" + CNP + "%'";
-                String sqlQuery = "SELECT * FROM Consultatii";
-                dataAdapterConsultatii = new OracleDataAdapter(sqlQuery, connection);
-                dataSetConsultatii = new DataSet();
-                dataAdapterConsultatii.Fill(dataSetConsultatii, "Consultatii");
-                dataGridView2.DataSource = dataSetConsultatii.Tables["Consultatii"];
-                dataSetConsultatii.Tables["Consultatii"].DefaultView.RowFilter = filterQuery;
-                dataGridView1.Refresh();
-
-
-                dataGridView2.Rows[0].Cells[0].Selected = false;
-                dataGridView2.ReadOnly = true;
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString());
-            }
-        }
+        }                     
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

@@ -56,6 +56,7 @@ namespace BDIS
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 main.getDiagnosticsForPatients(CNP);
+                main.hideLabel();
             }
             catch (Exception exception)
             {
