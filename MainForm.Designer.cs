@@ -49,6 +49,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.buttonAnuleazaCautare = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -239,11 +240,23 @@
             this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // buttonAnuleazaCautare
+            // 
+            this.buttonAnuleazaCautare.Location = new System.Drawing.Point(283, 39);
+            this.buttonAnuleazaCautare.Name = "buttonAnuleazaCautare";
+            this.buttonAnuleazaCautare.Size = new System.Drawing.Size(130, 23);
+            this.buttonAnuleazaCautare.TabIndex = 9;
+            this.buttonAnuleazaCautare.Text = "Anuleaza";
+            this.buttonAnuleazaCautare.UseVisualStyleBackColor = true;
+            this.buttonAnuleazaCautare.Visible = false;
+            this.buttonAnuleazaCautare.Click += new System.EventHandler(this.buttonAnuleazaCautare_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1117, 476);
+            this.Controls.Add(this.buttonAnuleazaCautare);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -290,6 +303,7 @@
         private System.Windows.Forms.ToolStripMenuItem modificareConsultatieToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stergereToolStripMenuItem;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonAnuleazaCautare;
     }
 }
 

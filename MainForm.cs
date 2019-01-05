@@ -15,8 +15,8 @@ namespace BDIS
     public partial class MainForm : Form
     {
         OracleConnection connection;
-        OracleDataAdapter dataAdapter;
-        DataSet dataSet;
+        OracleDataAdapter dataAdapter, dataAdapterConsultatii;
+        DataSet dataSet, dataSetConsultatii;
         Boolean inEditMode = false,
             inSearchMode = false;
         String CNP = String.Empty;
@@ -78,9 +78,9 @@ namespace BDIS
             }
         }
 
-        private void searchPatientByCNP()
+        private void searchPatientByCNP(String filter)
         {
-            String filterQuery = "CNP like'" + textBoxCautarePacienti.Text.ToString() + "%'";
+            String filterQuery = "CNP like'" + filter + "%'";
             dataSet.Tables["Pacienti"].DefaultView.RowFilter = filterQuery;
             dataGridView1.Refresh();
         }
@@ -102,18 +102,20 @@ namespace BDIS
 
         private void modificareDatePacientToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            textBoxCautarePacienti.Text = String.Empty;
             inSearchMode = true;
             displaySearchElements(true);
             inEditMode = true;
         }
 
        private void buttonSalvareModificari_Click(object sender, EventArgs e)
-        {
-            textBoxCautarePacienti.Clear();
-            inSearchMode = false;
+        {           
             updatePatientInformation();
             getPatientsInformation();
             displaySearchElements(false);
+            textBoxCautarePacienti.Text = String.Empty;
+            inSearchMode = false;
+
         }
 
         private void textBoxCautarePacienti_TextChanged(object sender, EventArgs e)
@@ -123,21 +125,26 @@ namespace BDIS
                 buttonSalvareModificari.Enabled = true;
                 buttonAnuleazaModificari.Enabled = true;
             }
-            searchPatientByCNP();
+            searchPatientByCNP(textBoxCautarePacienti.Text.ToString());
         }
 
         private void buttonAnuleazaModificari_Click(object sender, EventArgs e)
         {
             displaySearchElements(false);
             getPatientsInformation();
+            inSearchMode = false;
+
         }
 
         private void cautareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            textBoxCautarePacienti.Clear();
             displaySearchElements(true);
             dataGridView1.ReadOnly = true;
-            //searchPatientByCNP();
+            buttonSalvareModificari.Visible = false;
+            buttonAnuleazaModificari.Visible = false;
+            buttonAnuleazaCautare.Visible = true;
+            textBoxCautarePacienti.Text = String.Empty;
+
         }
 
         private void iesireToolStripMenuItem_Click(object sender, EventArgs e)
@@ -165,7 +172,7 @@ namespace BDIS
                         dataAdapter.DeleteCommand.ExecuteNonQuery();
                         connection.Close();
                         getPatientsInformation();
-
+                        getDiagnosticsForPatients(CNP);
                         MessageBox.Show("Stergerea s-a realizat cu succes");
                 }
             }
@@ -181,11 +188,11 @@ namespace BDIS
             {
                 String filterQuery = "CNP like'" + CNP + "%'";
                 String sqlQuery = "SELECT * FROM Consultatii";
-                dataAdapter = new OracleDataAdapter(sqlQuery, connection);
-                dataSet = new DataSet();
-                dataAdapter.Fill(dataSet, "Consultatii");
-                dataGridView2.DataSource = dataSet.Tables["Consultatii"];            
-                dataSet.Tables["Consultatii"].DefaultView.RowFilter = filterQuery;
+                dataAdapterConsultatii = new OracleDataAdapter(sqlQuery, connection);
+                dataSetConsultatii = new DataSet();
+                dataAdapterConsultatii.Fill(dataSetConsultatii, "Consultatii");
+                dataGridView2.DataSource = dataSetConsultatii.Tables["Consultatii"];
+                dataSetConsultatii.Tables["Consultatii"].DefaultView.RowFilter = filterQuery;
                 dataGridView1.Refresh();
 
 
@@ -232,18 +239,21 @@ namespace BDIS
                 {
 
                     String cnpSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[0].Value.ToString();
-                    String sqlDeleteQuery = "DELETE FROM Consultatii WHERE CNP= :p1";
+                    String diagnosticSelectat = dataGridView2.Rows[dataGridView2.SelectedRows[0].Index].Cells[3].Value.ToString();
+                    String sqlDeleteQuery = "DELETE FROM Consultatii WHERE CNP= :p1 AND diagnostic= :p2";
 
                     connection.Open();
                     OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
                     oracleCommand.BindByName = true;
                     oracleCommand.Parameters.Add("p1", cnpSelectat);
-                    dataAdapter.DeleteCommand = oracleCommand;
-                    dataAdapter.DeleteCommand.ExecuteNonQuery();
+                    oracleCommand.Parameters.Add("p2", diagnosticSelectat);
+                    dataAdapterConsultatii.DeleteCommand = oracleCommand;
+                    dataAdapterConsultatii.DeleteCommand.ExecuteNonQuery();
                     connection.Close();
                     getDiagnosticsForPatients(CNP);
 
                     MessageBox.Show("Stergerea s-a realizat cu succes");
+
                 }
             }
             else
@@ -257,14 +267,20 @@ namespace BDIS
             button1.Visible = false;
             try
             {
-                OracleCommandBuilder command = new OracleCommandBuilder(dataAdapter);
-                dataAdapter.Update(dataSet.Tables["Consultatii"]);
+                OracleCommandBuilder command = new OracleCommandBuilder(dataAdapterConsultatii);
+                dataAdapterConsultatii.Update(dataSetConsultatii.Tables["Consultatii"]);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString());
             }
             getDiagnosticsForPatients(CNP);
+        }
+
+        private void buttonAnuleazaCautare_Click(object sender, EventArgs e)
+        {
+            displaySearchElements(false);
+            buttonAnuleazaCautare.Visible = false;
         }
 
         private void modificareConsultatieToolStripMenuItem_Click(object sender, EventArgs e)

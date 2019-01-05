@@ -42,7 +42,7 @@ namespace BDIS
                 p2.Value = textBox2.Text;
                 p3.Value = textBox3.Text;
                 p4.Value = textBox4.Text;
-                String sqlInsertCommand = "Insert into Consultatii(nr_consultatie,data_consultatiei,diagnostic,medicamentatie) values (:1,:2,:3,:4)";
+                String sqlInsertCommand = "Insert into Pacienti Pacienti(CNP,adresa,data_nasterii,varsta) values (:1,:2,:3,:4)";
                 cmd = new OracleCommand(sqlInsertCommand, connection);
                 cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
