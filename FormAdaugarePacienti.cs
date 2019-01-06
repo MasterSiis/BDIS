@@ -157,7 +157,7 @@ namespace BDIS
                 }
             if(textBox2.Text.ToString().Length > 50)
             {
-                MessageBox.Show("Adresa este prea lunga!");
+                MessageBox.Show("Adresa este prea lunga !");
                 textBox2.ResetText();
                 this.ActiveControl = textBox2;
                 label2.ForeColor = Color.Red;
