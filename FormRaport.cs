@@ -13,11 +13,9 @@ namespace BDIS
     public partial class FormRaport : Form
     {
         CrystalReport1 raport = new CrystalReport1();
-        MainForm form;
         public FormRaport(CrystalReport1 raport, MainForm form)
         {
             this.raport = raport;
-            this.form = form;
             InitializeComponent();
             crystalReportViewer1.ReportSource = raport;
         }

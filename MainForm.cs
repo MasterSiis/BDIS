@@ -301,10 +301,23 @@ namespace BDIS
             {
                 if (dataGridView2.Rows[0].Cells[0].Displayed)
                 {
-                    CrystalReport1 raport = new CrystalReport1();
-                    raport.SetDataSource(dataSetConsultatii.Tables["Consultatii"]);
-                    FormRaport stat = new FormRaport(raport, this);
-                    stat.Show();
+                    if (!label3.Visible)
+                    { 
+                        String filterQuery = "CNP=" + CNP;
+                        var defaultView = dataSetConsultatii.Tables["Consultatii"].DefaultView;
+                        defaultView.RowFilter = filterQuery;
+                        var newDataSet = new DataSet();
+                        newDataSet.Tables.Add(defaultView.ToTable());
+
+                        CrystalReport1 raport = new CrystalReport1();
+                        raport.SetDataSource(newDataSet);
+                        FormRaport formRaport = new FormRaport(raport, this);
+                        formRaport.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Pacientul nu are consultatii !");
+                    }
                 }
             }
             catch (Exception exception)
