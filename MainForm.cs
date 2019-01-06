@@ -295,6 +295,25 @@ namespace BDIS
             
         }
 
+        private void fisaPacientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView2.Rows[0].Cells[0].Displayed)
+                {
+                    CrystalReport1 raport = new CrystalReport1();
+                    raport.SetDataSource(dataSetConsultatii.Tables["Consultatii"]);
+                    FormRaport stat = new FormRaport(raport, this);
+                    stat.Show();
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Selectati pacientul pentru care doriti sa modificati consultatiile !");
+            }
+            
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Visible = false;
