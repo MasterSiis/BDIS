@@ -25,63 +25,7 @@ namespace BDIS
             this.main = main;
 
             InitializeComponent();
-        }
-
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            OracleParameter p1, p2, p3, p4;
-            OracleCommand cmd;
-            if( textBox1.Text.ToString() != String.Empty &&
-                textBox2.Text.ToString() != String.Empty &&
-                textBox4.Text.ToString() != String.Empty 
-                )
-            {
-
-                try
-                {
-                    connection.Open();
-                    p1 = new OracleParameter();
-                    p2 = new OracleParameter();
-                    p3 = new OracleParameter();
-                    p4 = new OracleParameter();
-                    p1.Value = textBox1.Text;
-                    p2.Value = textBox2.Text;
-                    p3.Value = dateTimePicker1.Value.ToString("dd-MMM-yy").ToString();
-                    p4.Value = textBox4.Text;
-                    String sqlInsertCommand = "Insert into Pacienti Pacienti(CNP,adresa,data_nasterii,varsta) values (:1,:2,:3,:4)";
-                    cmd = new OracleCommand(sqlInsertCommand, connection);
-                    cmd.Parameters.Add(p1);
-                    cmd.Parameters.Add(p2);
-                    cmd.Parameters.Add(p3);
-                    cmd.Parameters.Add(p4);
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
-                    DialogResult dialog = MessageBox.Show("Doriti sa mai adaugati alt pacient?",
-                               "Adaugare pacienti", MessageBoxButtons.YesNo);
-                    if (dialog == DialogResult.Yes)
-                    {
-                        textBox1.Clear(); textBox2.Clear(); dateTimePicker1.ResetText(); textBox4.Clear();
-                        main.getPatientsInformation();
-                    }
-                    else
-                    {
-                        main.getPatientsInformation();
-                        this.Close();
-                    }
-                   
-                }
-                catch (Exception exception)
-                {
-                    MessageBox.Show(exception.ToString());
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nu ati completat toate campurile!");
-            }
-        }
-
+        }                
        
         Boolean hasOnlyNumbers(String input)
         {
@@ -196,10 +140,61 @@ namespace BDIS
             }
         }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            OracleParameter p1, p2, p3, p4;
+            OracleCommand cmd;
+            if (textBox1.Text.ToString() != String.Empty &&
+                textBox2.Text.ToString() != String.Empty &&
+                textBox4.Text.ToString() != String.Empty)
+            {
+                try
+                {
+                    connection.Open();
+                    p1 = new OracleParameter();
+                    p2 = new OracleParameter();
+                    p3 = new OracleParameter();
+                    p4 = new OracleParameter();
+                    p1.Value = textBox1.Text;
+                    p2.Value = textBox2.Text;
+                    p3.Value = dateTimePicker1.Value.ToString("dd-MMM-yy").ToString();
+                    p4.Value = textBox4.Text;
+                    String sqlInsertCommand = "Insert into Pacienti Pacienti(CNP,adresa,data_nasterii,varsta) values (:1,:2,:3,:4)";
+                    cmd = new OracleCommand(sqlInsertCommand, connection);
+                    cmd.Parameters.Add(p1);
+                    cmd.Parameters.Add(p2);
+                    cmd.Parameters.Add(p3);
+                    cmd.Parameters.Add(p4);
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                    DialogResult dialog = MessageBox.Show("Doriti sa mai adaugati alt pacient?",
+                               "Adaugare pacienti", MessageBoxButtons.YesNo);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        textBox1.Clear(); textBox2.Clear(); dateTimePicker1.ResetText(); textBox4.Clear();
+                        main.getPatientsInformation();
+                    }
+                    else
+                    {
+                        main.getPatientsInformation();
+                        this.Close();
+                    }
+
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nu ati completat toate campurile!");
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
     }
-        
 }

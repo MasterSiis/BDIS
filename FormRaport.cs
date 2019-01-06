@@ -19,6 +19,5 @@ namespace BDIS
             InitializeComponent();
             crystalReportViewer1.ReportSource = raport;
         }
-              
     }
 }

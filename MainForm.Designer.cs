@@ -95,7 +95,7 @@
             this.adaugatePacientToolStripMenuItem.Name = "adaugatePacientToolStripMenuItem";
             this.adaugatePacientToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.adaugatePacientToolStripMenuItem.Text = "Adaugare pacient";
-            this.adaugatePacientToolStripMenuItem.Click += new System.EventHandler(this.adaugatePacientToolStripMenuItem_Click);
+            this.adaugatePacientToolStripMenuItem.Click += new System.EventHandler(this.adaugarePacientToolStripMenuItem_Click);
             // 
             // modificareDatePacientToolStripMenuItem
             // 
@@ -242,7 +242,7 @@
             this.button1.Text = "Salveaza modificarile";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.buttonAnuleazaModificariConsultatie_Click);
             // 
             // buttonAnuleazaCautare
             // 
