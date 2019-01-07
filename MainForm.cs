@@ -102,6 +102,8 @@ namespace BDIS
             displaySearchElements(true);
             inEditMode = true;
             buttonAnuleazaModificari.Enabled = true;
+            buttonAnuleazaCautare.Visible = false;
+            dataGridView2.DataSource = null;
         }
 
         private void cautareToolStripMenuItem_Click(object sender, EventArgs e)
@@ -120,6 +122,10 @@ namespace BDIS
             if (inEditMode)
             {
                 buttonSalvareModificari.Enabled = true;
+            }
+            if(textBoxCautarePacienti.Text == String.Empty)
+            {
+                dataGridView2.DataSource = null;
             }
             searchPatientByCNP(textBoxCautarePacienti.Text.ToString());
         }
@@ -146,6 +152,8 @@ namespace BDIS
         {
             displaySearchElements(false);
             buttonAnuleazaCautare.Visible = false;
+            getPatientsInformation();
+            dataGridView2.DataSource = null;
         }
 
         private void stergerePacientToolStripMenuItem_Click(object sender, EventArgs e)
