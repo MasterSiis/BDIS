@@ -15,10 +15,12 @@ namespace BDIS
     public partial class MainForm : Form
     {
         OracleConnection connection;
-        OracleDataAdapter dataAdapter, dataAdapterConsultatii;
-        DataSet dataSet, dataSetConsultatii;
+        OracleDataAdapter dataAdapterPacienti, 
+                          dataAdapterConsultatii;
+        DataSet dataSetPacienti, 
+                dataSetConsultatii;
         Boolean inEditMode = false,
-            inSearchMode = false;
+                inSearchMode = false;
         String CNP = String.Empty;
 
         public MainForm()
@@ -33,8 +35,7 @@ namespace BDIS
             connectToDatabase();
             getPatientsInformation();
         }
-
-
+        
         private void connectToDatabase()
         {
             try
@@ -49,16 +50,31 @@ namespace BDIS
             }
         }
 
+        /* ######### Pacienti ######### */
+
         public void getPatientsInformation()
         {
             try
             {
                 String sqlQuery = "SELECT * FROM Pacienti";
-                dataAdapter = new OracleDataAdapter(sqlQuery, connection);
-                dataSet = new DataSet();
-                dataAdapter.Fill(dataSet, "Pacienti");
-                dataGridView1.DataSource = dataSet.Tables["Pacienti"];
+                dataAdapterPacienti = new OracleDataAdapter(sqlQuery, connection);
+                dataSetPacienti = new DataSet();
+                dataAdapterPacienti.Fill(dataSetPacienti, "Pacienti");
+                dataGridView1.DataSource = dataSetPacienti.Tables["Pacienti"];
                 dataGridView1.Rows[0].Cells[0].Selected = false;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }             
+
+        private void updatePatientInformation()
+        {
+            try
+            {
+                OracleCommandBuilder command = new OracleCommandBuilder(dataAdapterPacienti);
+                dataAdapterPacienti.Update(dataSetPacienti.Tables["Pacienti"]);
             }
             catch (Exception exception)
             {
@@ -66,10 +82,134 @@ namespace BDIS
             }
         }
 
-        public void hideLabel()
+        private void searchPatientByCNP(String filter)
         {
-            label3.Visible = false;
+            String filterQuery = "CNP like'" + filter + "%'";
+            dataSetPacienti.Tables["Pacienti"].DefaultView.RowFilter = filterQuery;
+            dataGridView1.Refresh();
         }
+
+        private void adaugarePacientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAdaugarePacienti formAdaugare = new FormAdaugarePacienti(connection, this);
+            formAdaugare.Show();
+        }
+
+        private void modificareDatePacientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxCautarePacienti.Text = String.Empty;
+            inSearchMode = true;
+            displaySearchElements(true);
+            inEditMode = true;
+            buttonAnuleazaModificari.Enabled = true;
+            buttonAnuleazaCautare.Visible = false;
+            dataGridView2.DataSource = null;
+        }
+
+        private void cautareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            displaySearchElements(true);
+            dataGridView1.ReadOnly = true;
+            buttonSalvareModificari.Visible = false;
+            buttonAnuleazaModificari.Visible = false;
+            buttonAnuleazaCautare.Visible = true;
+            textBoxCautarePacienti.Text = String.Empty;
+
+        }
+
+        private void textBoxCautarePacienti_TextChanged(object sender, EventArgs e)
+        {
+            if (inEditMode)
+            {
+                buttonSalvareModificari.Enabled = true;
+            }
+            if(textBoxCautarePacienti.Text == String.Empty)
+            {
+                dataGridView2.DataSource = null;
+            }
+            searchPatientByCNP(textBoxCautarePacienti.Text.ToString());
+        }
+
+        private void buttonSalvareModificari_Click(object sender, EventArgs e)
+        {
+            updatePatientInformation();
+            getPatientsInformation();
+            displaySearchElements(false);
+            textBoxCautarePacienti.Text = String.Empty;
+            inSearchMode = false;
+            getDiagnosticsForPatients(CNP);
+
+        }
+
+        private void buttonAnuleazaModificari_Click(object sender, EventArgs e)
+        {
+            displaySearchElements(false);
+            getPatientsInformation();
+            inSearchMode = false;
+        }
+
+        private void buttonAnuleazaCautare_Click(object sender, EventArgs e)
+        {
+            displaySearchElements(false);
+            buttonAnuleazaCautare.Visible = false;
+            getPatientsInformation();
+            dataGridView2.DataSource = null;
+        }
+
+        private void stergerePacientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 1)
+            {
+                DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
+                MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes)
+                {
+
+                    String cnpSelectat = dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[0].Value.ToString();
+                    String sqlDeleteQuery = "DELETE FROM Pacienti WHERE CNP= :p1";
+
+                    connection.Open();
+                    OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
+                    oracleCommand.BindByName = true;
+                    oracleCommand.Parameters.Add("p1", cnpSelectat);
+                    dataAdapterPacienti.DeleteCommand = oracleCommand;
+                    dataAdapterPacienti.DeleteCommand.ExecuteNonQuery();
+                    connection.Close();
+                    getPatientsInformation();
+                    getDiagnosticsForPatients(CNP);
+                    MessageBox.Show("Stergerea s-a realizat cu succes");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!inSearchMode)
+            {
+                try
+                {
+                    CNP = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
+                    getDiagnosticsForPatients(CNP);
+                }catch{}
+            }
+            else
+            {
+                textBoxCautarePacienti.Text = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
+            }
+
+            if (dataGridView2.Rows.Count == 1)
+                label3.Visible = true;
+            else
+                label3.Visible = false;
+        }
+
+
+        /* ######### Consultatii ######### */
+
 
         public void getDiagnosticsForPatients(String CNP)
         {
@@ -94,149 +234,6 @@ namespace BDIS
             }
         }
 
-        private void updatePatientInformation()
-        {
-            try
-            {
-                OracleCommandBuilder command = new OracleCommandBuilder(dataAdapter);
-                dataAdapter.Update(dataSet.Tables["Pacienti"]);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString());
-            }
-        }
-
-        private void searchPatientByCNP(String filter)
-        {
-            String filterQuery = "CNP like'" + filter + "%'";
-            dataSet.Tables["Pacienti"].DefaultView.RowFilter = filterQuery;
-            dataGridView1.Refresh();
-        }
-
-        private void stergerePacientToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count == 1)
-            {
-                DialogResult dialog = MessageBox.Show("Doriti sa stergeti?", "Stergere",
-                MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
-                {
-
-                    String cnpSelectat = dataGridView1.Rows[dataGridView1.SelectedRows[0].Index].Cells[0].Value.ToString();
-                    String sqlDeleteQuery = "DELETE FROM Pacienti WHERE CNP= :p1";
-
-                    connection.Open();
-                    OracleCommand oracleCommand = new OracleCommand(sqlDeleteQuery, connection);
-                    oracleCommand.BindByName = true;
-                    oracleCommand.Parameters.Add("p1", cnpSelectat);
-                    dataAdapter.DeleteCommand = oracleCommand;
-                    dataAdapter.DeleteCommand.ExecuteNonQuery();
-                    connection.Close();
-                    getPatientsInformation();
-                    getDiagnosticsForPatients(CNP);
-                    MessageBox.Show("Stergerea s-a realizat cu succes");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Trebuie sa selectati intreg randul care se doreste a fi sters !");
-            }
-        }
-
-        private void displaySearchElements(Boolean visible)
-        {
-            labelCautareNume.Visible = visible;
-            textBoxCautarePacienti.Visible = visible;
-            buttonSalvareModificari.Visible = visible;
-            buttonAnuleazaModificari.Visible = visible;
-            dataGridView1.ReadOnly = !visible;
-        }
-
-        private void adaugatePacientToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAdaugarePacienti formAdaugare = new FormAdaugarePacienti(connection, this);
-            formAdaugare.Show();
-        }
-
-        private void modificareDatePacientToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            textBoxCautarePacienti.Text = String.Empty;
-            inSearchMode = true;
-            displaySearchElements(true);
-            inEditMode = true;
-            buttonAnuleazaModificari.Enabled = true;
-        }
-
-       private void buttonSalvareModificari_Click(object sender, EventArgs e)
-        {           
-            updatePatientInformation();
-            getPatientsInformation();
-            displaySearchElements(false);
-            textBoxCautarePacienti.Text = String.Empty;
-            inSearchMode = false;
-            getDiagnosticsForPatients(CNP);
-
-        }
-
-        private void textBoxCautarePacienti_TextChanged(object sender, EventArgs e)
-        {
-            if (inEditMode)
-            {
-                buttonSalvareModificari.Enabled = true;
-            }
-            searchPatientByCNP(textBoxCautarePacienti.Text.ToString());
-        }
-
-        private void buttonAnuleazaModificari_Click(object sender, EventArgs e)
-        {
-            displaySearchElements(false);
-            getPatientsInformation();
-            inSearchMode = false;
-
-        }
-
-        private void cautareToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            displaySearchElements(true);
-            dataGridView1.ReadOnly = true;
-            buttonSalvareModificari.Visible = false;
-            buttonAnuleazaModificari.Visible = false;
-            buttonAnuleazaCautare.Visible = true;
-            textBoxCautarePacienti.Text = String.Empty;
-
-        }
-
-        private void iesireToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }                     
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (!inSearchMode)
-            {
-                try
-                { 
-                CNP = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
-                getDiagnosticsForPatients(CNP);
-                }
-                catch(Exception ex)
-                {
-                    //MessageBox.Show(ex.ToString());
-                }
-            }
-            else
-            {
-                textBoxCautarePacienti.Text = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
-            }
-
-            if (dataGridView2.Rows.Count == 1)
-                label3.Visible = true;
-            else
-                label3.Visible = false;
-        }
-
         private void adaugaConsultatiiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CNP != String.Empty)
@@ -250,11 +247,27 @@ namespace BDIS
             }
 
         }
-        
+
+        private void modificareConsultatieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView2.Rows[0].Cells[0].Displayed)
+                {
+                    button1.Visible = true;
+                    dataGridView2.ReadOnly = false;
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Selectati pacientul pentru care doriti sa modificati consultatiile !");
+            }
+        }
+
         private void stergereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
-            { 
+            {
                 if (dataGridView2.Rows[0].Cells[0].Displayed)
                 {
                     if (dataGridView2.SelectedRows.Count == 1)
@@ -292,10 +305,9 @@ namespace BDIS
             {
                 MessageBox.Show("Selectati pacientul pentru care doriti sa stergeti consultatiile !");
             }
-            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonAnuleazaModificariConsultatie_Click(object sender, EventArgs e)
         {
             button1.Visible = false;
             try
@@ -310,26 +322,64 @@ namespace BDIS
             getDiagnosticsForPatients(CNP);
         }
 
-        private void buttonAnuleazaCautare_Click(object sender, EventArgs e)
-        {
-            displaySearchElements(false);
-            buttonAnuleazaCautare.Visible = false;
-        }
+        
 
-        private void modificareConsultatieToolStripMenuItem_Click(object sender, EventArgs e)
+        /* ######### Crystal Report ######### */
+        
+        private void fisaPacientToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                if(dataGridView2.Rows[0].Cells[0].Displayed)
-                { 
-                    button1.Visible = true;
-                    dataGridView2.ReadOnly = false;
+                if (dataGridView2.Rows[0].Cells[0].Displayed)
+                {
+                    if (!label3.Visible)
+                    { 
+                        String filterQuery = "CNP=" + CNP;
+                        var defaultView = dataSetConsultatii.Tables["Consultatii"].DefaultView;
+                        defaultView.RowFilter = filterQuery;
+                        var newDataSet = new DataSet();
+                        newDataSet.Tables.Add(defaultView.ToTable());
+
+                        CrystalReport1 raport = new CrystalReport1();
+                        raport.SetDataSource(newDataSet);
+                        FormRaport formRaport = new FormRaport(raport, this);
+                        formRaport.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Pacientul nu are consultatii !");
+                    }
                 }
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 MessageBox.Show("Selectati pacientul pentru care doriti sa modificati consultatiile !");
             }
+            
         }
+        
+        
+        /* ######### Utils ######### */
+        
+        private void displaySearchElements(Boolean visible)
+        {
+            labelCautareNume.Visible = visible;
+            textBoxCautarePacienti.Visible = visible;
+            buttonSalvareModificari.Visible = visible;
+            buttonAnuleazaModificari.Visible = visible;
+            dataGridView1.ReadOnly = !visible;
+        }
+
+        public void hideLabel()
+        {
+            label3.Visible = false;
+        }
+
+        private void iesireToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
     }
 }

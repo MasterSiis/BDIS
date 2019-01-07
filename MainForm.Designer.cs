@@ -51,6 +51,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.buttonAnuleazaCautare = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.fisaPacientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -94,7 +95,7 @@
             this.adaugatePacientToolStripMenuItem.Name = "adaugatePacientToolStripMenuItem";
             this.adaugatePacientToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.adaugatePacientToolStripMenuItem.Text = "Adaugare pacient";
-            this.adaugatePacientToolStripMenuItem.Click += new System.EventHandler(this.adaugatePacientToolStripMenuItem_Click);
+            this.adaugatePacientToolStripMenuItem.Click += new System.EventHandler(this.adaugarePacientToolStripMenuItem_Click);
             // 
             // modificareDatePacientToolStripMenuItem
             // 
@@ -150,6 +151,8 @@
             // 
             // rapoarteToolStripMenuItem
             // 
+            this.rapoarteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fisaPacientToolStripMenuItem});
             this.rapoarteToolStripMenuItem.Name = "rapoarteToolStripMenuItem";
             this.rapoarteToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.rapoarteToolStripMenuItem.Text = "Rapoarte";
@@ -239,7 +242,7 @@
             this.button1.Text = "Salveaza modificarile";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.buttonAnuleazaModificariConsultatie_Click);
             // 
             // buttonAnuleazaCautare
             // 
@@ -261,6 +264,13 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Acest pacient nu are consultatii inregistrate ..";
             this.label3.Visible = false;
+            // 
+            // fisaPacientToolStripMenuItem
+            // 
+            this.fisaPacientToolStripMenuItem.Name = "fisaPacientToolStripMenuItem";
+            this.fisaPacientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fisaPacientToolStripMenuItem.Text = "Fisa pacient";
+            this.fisaPacientToolStripMenuItem.Click += new System.EventHandler(this.fisaPacientToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -317,6 +327,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonAnuleazaCautare;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem fisaPacientToolStripMenuItem;
     }
 }
 
