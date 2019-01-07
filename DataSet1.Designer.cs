@@ -652,6 +652,10 @@ namespace BDIS {
             
             private global::System.Data.DataColumn columnVARSTA;
             
+            private global::System.Data.DataColumn columnNUME;
+            
+            private global::System.Data.DataColumn columnPRENUME;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public PACIENTIDataTable() {
@@ -719,6 +723,22 @@ namespace BDIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn NUMEColumn {
+                get {
+                    return this.columnNUME;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn PRENUMEColumn {
+                get {
+                    return this.columnPRENUME;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -754,13 +774,15 @@ namespace BDIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public PACIENTIRow AddPACIENTIRow(string CNP, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA) {
+            public PACIENTIRow AddPACIENTIRow(string CNP, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA, string NUME, string PRENUME) {
                 PACIENTIRow rowPACIENTIRow = ((PACIENTIRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CNP,
                         ADRESA,
                         DATA_NASTERII,
-                        VARSTA};
+                        VARSTA,
+                        NUME,
+                        PRENUME};
                 rowPACIENTIRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPACIENTIRow);
                 return rowPACIENTIRow;
@@ -794,6 +816,8 @@ namespace BDIS {
                 this.columnADRESA = base.Columns["ADRESA"];
                 this.columnDATA_NASTERII = base.Columns["DATA_NASTERII"];
                 this.columnVARSTA = base.Columns["VARSTA"];
+                this.columnNUME = base.Columns["NUME"];
+                this.columnPRENUME = base.Columns["PRENUME"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -807,6 +831,10 @@ namespace BDIS {
                 base.Columns.Add(this.columnDATA_NASTERII);
                 this.columnVARSTA = new global::System.Data.DataColumn("VARSTA", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVARSTA);
+                this.columnNUME = new global::System.Data.DataColumn("NUME", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNUME);
+                this.columnPRENUME = new global::System.Data.DataColumn("PRENUME", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRENUME);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCNP}, true));
                 this.columnCNP.AllowDBNull = false;
@@ -816,6 +844,8 @@ namespace BDIS {
                 this.columnADRESA.MaxLength = 50;
                 this.columnDATA_NASTERII.AllowDBNull = false;
                 this.columnVARSTA.AllowDBNull = false;
+                this.columnNUME.MaxLength = 50;
+                this.columnPRENUME.MaxLength = 50;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1096,6 +1126,62 @@ namespace BDIS {
                 set {
                     this[this.tablePACIENTI.VARSTAColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string NUME {
+                get {
+                    try {
+                        return ((string)(this[this.tablePACIENTI.NUMEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NUME\' in table \'PACIENTI\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePACIENTI.NUMEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string PRENUME {
+                get {
+                    try {
+                        return ((string)(this[this.tablePACIENTI.PRENUMEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PRENUME\' in table \'PACIENTI\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePACIENTI.PRENUMEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsNUMENull() {
+                return this.IsNull(this.tablePACIENTI.NUMEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetNUMENull() {
+                this[this.tablePACIENTI.NUMEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsPRENUMENull() {
+                return this.IsNull(this.tablePACIENTI.PRENUMEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetPRENUMENull() {
+                this[this.tablePACIENTI.PRENUMEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1859,14 +1945,50 @@ namespace BDIS.DataSet1TableAdapters {
             tableMapping.ColumnMappings.Add("ADRESA", "ADRESA");
             tableMapping.ColumnMappings.Add("DATA_NASTERII", "DATA_NASTERII");
             tableMapping.ColumnMappings.Add("VARSTA", "VARSTA");
+            tableMapping.ColumnMappings.Add("NUME", "NUME");
+            tableMapping.ColumnMappings.Add("PRENUME", "PRENUME");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM \"STUDENT\".\"PACIENTI\" WHERE ((\"CNP\" = :Original_CNP) AND (\"ADRESA\" = :" +
-                "Original_ADRESA) AND (\"DATA_NASTERII\" = :Original_DATA_NASTERII) AND (\"VARSTA\" =" +
-                " :Original_VARSTA))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""STUDENT"".""PACIENTI"" WHERE (((:IsNull_NUME = 1 AND ""NUME"" IS NULL) OR (""NUME"" = :Original_NUME)) AND ((:IsNull_PRENUME = 1 AND ""PRENUME"" IS NULL) OR (""PRENUME"" = :Original_PRENUME)) AND (""CNP"" = :Original_CNP) AND (""ADRESA"" = :Original_ADRESA) AND (""DATA_NASTERII"" = :Original_DATA_NASTERII) AND (""VARSTA"" = :Original_VARSTA))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::Oracle.ManagedDataAccess.Client.OracleParameter param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "IsNull_NUME";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "NUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "Original_NUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "NUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "IsNull_PRENUME";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "PRENUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "Original_PRENUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "PRENUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "Original_CNP";
             param.DbType = global::System.Data.DbType.StringFixedLength;
             param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
@@ -1903,9 +2025,24 @@ namespace BDIS.DataSet1TableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO \"STUDENT\".\"PACIENTI\" (\"CNP\", \"ADRESA\", \"DATA_NASTERII\", \"VARSTA\") VAL" +
-                "UES (:CNP, :ADRESA, :DATA_NASTERII, :VARSTA)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO \"STUDENT\".\"PACIENTI\" (\"NUME\", \"PRENUME\", \"CNP\", \"ADRESA\", \"DATA_NASTE" +
+                "RII\", \"VARSTA\") VALUES (:NUME, :PRENUME, :CNP, :ADRESA, :DATA_NASTERII, :VARSTA)" +
+                "";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "NUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "NUME";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "PRENUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "PRENUME";
+            this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "CNP";
             param.DbType = global::System.Data.DbType.StringFixedLength;
@@ -1939,8 +2076,22 @@ namespace BDIS.DataSet1TableAdapters {
             this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE ""STUDENT"".""PACIENTI"" SET ""CNP"" = :CNP, ""ADRESA"" = :ADRESA, ""DATA_NASTERII"" = :DATA_NASTERII, ""VARSTA"" = :VARSTA WHERE ((""CNP"" = :Original_CNP) AND (""ADRESA"" = :Original_ADRESA) AND (""DATA_NASTERII"" = :Original_DATA_NASTERII) AND (""VARSTA"" = :Original_VARSTA))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""STUDENT"".""PACIENTI"" SET ""NUME"" = :NUME, ""PRENUME"" = :PRENUME, ""CNP"" = :CNP, ""ADRESA"" = :ADRESA, ""DATA_NASTERII"" = :DATA_NASTERII, ""VARSTA"" = :VARSTA WHERE (((:IsNull_NUME = 1 AND ""NUME"" IS NULL) OR (""NUME"" = :Original_NUME)) AND ((:IsNull_PRENUME = 1 AND ""PRENUME"" IS NULL) OR (""PRENUME"" = :Original_PRENUME)) AND (""CNP"" = :Original_CNP) AND (""ADRESA"" = :Original_ADRESA) AND (""DATA_NASTERII"" = :Original_DATA_NASTERII) AND (""VARSTA"" = :Original_VARSTA))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "NUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "NUME";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "PRENUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "PRENUME";
+            this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "CNP";
             param.DbType = global::System.Data.DbType.StringFixedLength;
@@ -1971,6 +2122,42 @@ namespace BDIS.DataSet1TableAdapters {
             param.Size = 22;
             param.IsNullable = true;
             param.SourceColumn = "VARSTA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "IsNull_NUME";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "NUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "Original_NUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "NUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "IsNull_PRENUME";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "PRENUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "Original_PRENUME";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "PRENUME";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "Original_CNP";
@@ -2022,7 +2209,7 @@ namespace BDIS.DataSet1TableAdapters {
             this._commandCollection = new global::Oracle.ManagedDataAccess.Client.OracleCommand[1];
             this._commandCollection[0] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT CNP, ADRESA, DATA_NASTERII, VARSTA FROM STUDENT.PACIENTI";
+            this._commandCollection[0].CommandText = "SELECT NUME,PRENUME,CNP, ADRESA, DATA_NASTERII, VARSTA FROM STUDENT.PACIENTI";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -2083,21 +2270,37 @@ namespace BDIS.DataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string Original_CNP, string Original_ADRESA, System.DateTime Original_DATA_NASTERII, decimal Original_VARSTA) {
+        public virtual int Delete(string Original_NUME, string Original_PRENUME, string Original_CNP, string Original_ADRESA, System.DateTime Original_DATA_NASTERII, decimal Original_VARSTA) {
+            if ((Original_NUME == null)) {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_NUME));
+            }
+            if ((Original_PRENUME == null)) {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_PRENUME));
+            }
             if ((Original_CNP == null)) {
                 throw new global::System.ArgumentNullException("Original_CNP");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_CNP));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_CNP));
             }
             if ((Original_ADRESA == null)) {
                 throw new global::System.ArgumentNullException("Original_ADRESA");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_ADRESA));
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((string)(Original_ADRESA));
             }
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((System.DateTime)(Original_DATA_NASTERII));
-            this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_VARSTA));
+            this.Adapter.DeleteCommand.Parameters[6].Value = ((System.DateTime)(Original_DATA_NASTERII));
+            this.Adapter.DeleteCommand.Parameters[7].Value = ((decimal)(Original_VARSTA));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2118,21 +2321,33 @@ namespace BDIS.DataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string CNP, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA) {
+        public virtual int Insert(string NUME, string PRENUME, string CNP, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA) {
+            if ((NUME == null)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(NUME));
+            }
+            if ((PRENUME == null)) {
+                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(PRENUME));
+            }
             if ((CNP == null)) {
                 throw new global::System.ArgumentNullException("CNP");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(CNP));
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(CNP));
             }
             if ((ADRESA == null)) {
                 throw new global::System.ArgumentNullException("ADRESA");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(ADRESA));
+                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(ADRESA));
             }
-            this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(DATA_NASTERII));
-            this.Adapter.InsertCommand.Parameters[3].Value = ((decimal)(VARSTA));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(DATA_NASTERII));
+            this.Adapter.InsertCommand.Parameters[5].Value = ((decimal)(VARSTA));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2153,35 +2368,63 @@ namespace BDIS.DataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string CNP, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA, string Original_CNP, string Original_ADRESA, System.DateTime Original_DATA_NASTERII, decimal Original_VARSTA) {
+        public virtual int Update(string NUME, string PRENUME, string CNP, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA, string Original_NUME, string Original_PRENUME, string Original_CNP, string Original_ADRESA, System.DateTime Original_DATA_NASTERII, decimal Original_VARSTA) {
+            if ((NUME == null)) {
+                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(NUME));
+            }
+            if ((PRENUME == null)) {
+                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(PRENUME));
+            }
             if ((CNP == null)) {
                 throw new global::System.ArgumentNullException("CNP");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(CNP));
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(CNP));
             }
             if ((ADRESA == null)) {
                 throw new global::System.ArgumentNullException("ADRESA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(ADRESA));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(ADRESA));
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(DATA_NASTERII));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(VARSTA));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(DATA_NASTERII));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(VARSTA));
+            if ((Original_NUME == null)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(Original_NUME));
+            }
+            if ((Original_PRENUME == null)) {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_PRENUME));
+            }
             if ((Original_CNP == null)) {
                 throw new global::System.ArgumentNullException("Original_CNP");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Original_CNP));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_CNP));
             }
             if ((Original_ADRESA == null)) {
                 throw new global::System.ArgumentNullException("Original_ADRESA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Original_ADRESA));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(Original_ADRESA));
             }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((System.DateTime)(Original_DATA_NASTERII));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_VARSTA));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((System.DateTime)(Original_DATA_NASTERII));
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((decimal)(Original_VARSTA));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2202,8 +2445,8 @@ namespace BDIS.DataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA, string Original_CNP, string Original_ADRESA, System.DateTime Original_DATA_NASTERII, decimal Original_VARSTA) {
-            return this.Update(Original_CNP, ADRESA, DATA_NASTERII, VARSTA, Original_CNP, Original_ADRESA, Original_DATA_NASTERII, Original_VARSTA);
+        public virtual int Update(string NUME, string PRENUME, string ADRESA, System.DateTime DATA_NASTERII, decimal VARSTA, string Original_NUME, string Original_PRENUME, string Original_CNP, string Original_ADRESA, System.DateTime Original_DATA_NASTERII, decimal Original_VARSTA) {
+            return this.Update(NUME, PRENUME, Original_CNP, ADRESA, DATA_NASTERII, VARSTA, Original_NUME, Original_PRENUME, Original_CNP, Original_ADRESA, Original_DATA_NASTERII, Original_VARSTA);
         }
     }
     

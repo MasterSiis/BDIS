@@ -192,7 +192,7 @@ namespace BDIS
             {
                 try
                 {
-                    CNP = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[0].Value.ToString();
+                    CNP = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells[2].Value.ToString();
                     getDiagnosticsForPatients(CNP);
                 }catch{}
             }
@@ -335,11 +335,13 @@ namespace BDIS
                     if (!label3.Visible)
                     { 
                         String filterQuery = "CNP=" + CNP;
-                        var defaultView = dataSetConsultatii.Tables["Consultatii"].DefaultView;
-                        defaultView.RowFilter = filterQuery;
+                        var dataViewConsultatii = dataSetConsultatii.Tables["Consultatii"].DefaultView;
+                        var dataViewPacienti = dataSetPacienti.Tables["Pacienti"].DefaultView;
+                        dataViewPacienti.RowFilter = filterQuery;
+                        dataViewConsultatii.RowFilter = filterQuery;
                         var newDataSet = new DataSet();
-                        newDataSet.Tables.Add(defaultView.ToTable());
-
+                        newDataSet.Tables.Add(dataViewConsultatii.ToTable());
+                        newDataSet.Tables.Add(dataViewPacienti.ToTable());
                         CrystalReport1 raport = new CrystalReport1();
                         raport.SetDataSource(newDataSet);
                         FormRaport formRaport = new FormRaport(raport, this);

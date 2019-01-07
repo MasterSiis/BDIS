@@ -40,6 +40,7 @@
             this.modificareConsultatieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stergereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rapoarteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fisaPacientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iesireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelCautareNume = new System.Windows.Forms.Label();
             this.textBoxCautarePacienti = new System.Windows.Forms.TextBox();
@@ -51,7 +52,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.buttonAnuleazaCautare = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.fisaPacientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -59,10 +59,11 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(36, 114);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(444, 325);
+            this.dataGridView1.Size = new System.Drawing.Size(646, 325);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -75,7 +76,7 @@
             this.iesireToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1117, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1287, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -157,6 +158,13 @@
             this.rapoarteToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.rapoarteToolStripMenuItem.Text = "Rapoarte";
             // 
+            // fisaPacientToolStripMenuItem
+            // 
+            this.fisaPacientToolStripMenuItem.Name = "fisaPacientToolStripMenuItem";
+            this.fisaPacientToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.fisaPacientToolStripMenuItem.Text = "Fisa pacient";
+            this.fisaPacientToolStripMenuItem.Click += new System.EventHandler(this.fisaPacientToolStripMenuItem_Click);
+            // 
             // iesireToolStripMenuItem
             // 
             this.iesireToolStripMenuItem.Name = "iesireToolStripMenuItem";
@@ -209,8 +217,9 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(536, 114);
+            this.dataGridView2.Location = new System.Drawing.Point(712, 114);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(547, 325);
             this.dataGridView2.TabIndex = 0;
@@ -227,7 +236,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(775, 98);
+            this.label2.Location = new System.Drawing.Point(959, 98);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 7;
@@ -235,7 +244,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(731, 39);
+            this.button1.Location = new System.Drawing.Point(915, 39);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(146, 37);
             this.button1.TabIndex = 8;
@@ -258,25 +267,18 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(712, 442);
+            this.label3.Location = new System.Drawing.Point(896, 442);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(218, 13);
             this.label3.TabIndex = 10;
             this.label3.Text = "Acest pacient nu are consultatii inregistrate ..";
             this.label3.Visible = false;
             // 
-            // fisaPacientToolStripMenuItem
-            // 
-            this.fisaPacientToolStripMenuItem.Name = "fisaPacientToolStripMenuItem";
-            this.fisaPacientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.fisaPacientToolStripMenuItem.Text = "Fisa pacient";
-            this.fisaPacientToolStripMenuItem.Click += new System.EventHandler(this.fisaPacientToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1117, 476);
+            this.ClientSize = new System.Drawing.Size(1287, 476);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonAnuleazaCautare);
             this.Controls.Add(this.button1);
