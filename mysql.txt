@@ -1,4 +1,6 @@
 create table Pacienti(
+nume varchar(50),
+prenume varchar(50),
 CNP char(13) primary key,
 adresa varchar(50) not null,
 data_nasterii date not null,
