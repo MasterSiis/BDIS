@@ -13,11 +13,19 @@ namespace BDIS
     public partial class FormRaport : Form
     {
         CrystalReport1 raport = new CrystalReport1();
+        MainForm main;
         public FormRaport(CrystalReport1 raport, MainForm form)
         {
+            this.main = form;
             this.raport = raport;
             InitializeComponent();
             crystalReportViewer1.ReportSource = raport;
+        }
+
+       
+        private void FormRaport_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            main.formReportClosed();
         }
     }
 }
