@@ -130,6 +130,7 @@ namespace BDIS
                     this.ActiveControl = textBox3;
                     isAllOk = false;
                     label6.ForeColor = Color.Red;
+                    this.ActiveControl = textBox3;
                 }
             if (textBox2.Text.ToString().Length > 50)
             {
@@ -138,12 +139,13 @@ namespace BDIS
                 this.ActiveControl = textBox3;
                 label6.ForeColor = Color.Red;
                 isAllOk = false;
+                this.ActiveControl = textBox3;
             }
             if (isAllOk && fieldNotEmpty(textBox3.Text.ToString()))
             {
                 label6.ForeColor = Color.Black;
             }
-            this.ActiveControl = textBox5;
+            
         }
 
         private void textBox4_Leave(object sender, EventArgs e)

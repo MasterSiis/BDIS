@@ -50,6 +50,7 @@
             this.Controls.Add(this.crystalReportViewer1);
             this.Name = "FormRaport";
             this.Text = "Fisa pacient";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRaport_FormClosing);
             this.ResumeLayout(false);
 
         }

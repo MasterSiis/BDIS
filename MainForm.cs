@@ -30,6 +30,7 @@ namespace BDIS
             label3.ForeColor = Color.Red;
         }
 
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             connectToDatabase();
@@ -84,8 +85,14 @@ namespace BDIS
 
         private void searchPatientByCNP(String filter)
         {
-            String filterQuery = "CNP like'" + filter + "%'";
-            dataSetPacienti.Tables["Pacienti"].DefaultView.RowFilter = filterQuery;
+
+            String filterQuery = "CNP like'" + filter+"%'";
+            var dataViewPacienti = dataSetPacienti.Tables["Pacienti"].DefaultView;
+            dataViewPacienti.RowFilter = filterQuery;
+
+
+            //String filterQuery = "CNP like'" + filter + "%'";
+            //dataSetPacienti.Tables["Pacienti"].DefaultView.RowFilter = filterQuery;
             dataGridView1.Refresh();
         }
 
@@ -206,6 +213,13 @@ namespace BDIS
             else
                 label3.Visible = false;
         }
+
+        internal void formReportClosed()
+        {
+            getPatientsInformation();
+            dataGridView2.DataSource = null;
+        }
+
 
 
         /* ######### Consultatii ######### */
